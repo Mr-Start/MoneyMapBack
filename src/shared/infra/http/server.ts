@@ -15,9 +15,8 @@ app.use(
 );
 
 app.use("/", route);
-
 app.use(handleError);
 
-app.listen(Number(process.env.PORT), () => {
-  console.log("🚀 Backend Rodando...");
+app.listen(8080, () => {
+  console.log(`🚀 Backend Rodando na porta 8080...`);
 });

@@ -8,16 +8,30 @@
   "scripts": {
     "build": "npx tsc",
     "start": "npm install && npx prisma migrate deploy && npm run start:prod",
+    "start:prod": "node ./dist/shared/infra/http/server.js",
     "start:dev": "ts-node-dev ./src/shared/infra/http/server.ts",
-    "docker:start": "docker compose up -d && npx prisma migrate dev"
+    "docker:start": "docker compose up -d && npx prisma migrate dev",
+    "db:migrate": "prisma migrate dev",
+    "db:reset": "prisma migrate reset"
   },
   "prisma": {
     "schema": "src/shared/infra/prisma/schema.prisma"
   },
   "devDependencies": {
-    "prisma": "^6.13.0"
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "prisma": "^6.13.0",
+    "ts-node-dev": "^2.0.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.13.0"
+    "@prisma/client": "^6.13.0",
+    "@types/bcrypt": "^6.0.0",
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "uuid": "^11.1.0",
+    "zod": "^4.0.17"
   }
 }
