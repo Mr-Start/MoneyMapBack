@@ -1,0 +1,16 @@
+version: "1.0"
+name: money_map_backend
+
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    container_name: money_map_postgres
+    image: postgres:17.5
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=money_map
