@@ -1,9 +1,5 @@
 import { AppError } from "../../../errors/AppError";
-import {
-  IUpdateUserDTO,
-  IUserDTO,
-  IUserResponseDTO,
-} from "../domain/DTOS/userDTO";
+import { IUpdateUserDTO, IUserResponseDTO } from "../domain/DTOS/userDTO";
 import { IUserRepository } from "../domain/repositories/IUserRepository";
 
 export class UpdateUserService {
@@ -12,10 +8,6 @@ export class UpdateUserService {
   async execute(data: IUpdateUserDTO, id: string): Promise<IUserResponseDTO> {
     try {
       const user = await this.userRepository.findById(id);
-
-      if (!user) {
-        throw new AppError("User not found");
-      }
 
       const newUser: IUpdateUserDTO = {
         ...user,

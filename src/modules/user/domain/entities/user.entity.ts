@@ -56,22 +56,6 @@ export class User {
     return new User(props, id);
   }
 
-  public verifyEmail(): boolean {
-    if (this.getEmail.includes("@") && this.getEmail.includes(".")) {
-      return true;
-    }
-
-    return false;
-  }
-
-  public verifyPassword(): boolean {
-    if (this.getPassword.length >= 6) {
-      return true;
-    }
-
-    return false;
-  }
-
   public toDTO(): IUserDTO {
     return {
       id: this.id,

@@ -14,8 +14,6 @@ export class CreateUserService {
     const user = User.create(data);
 
     if (!user) throw new AppError("User not created");
-    if (!user.verifyEmail()) throw new AppError("Email not valid");
-    if (!user.verifyPassword()) throw new AppError("Password not valid");
 
     const userExists = await this.userRepository.findByEmail(user.getEmail);
     if (userExists) throw new AppError("Email already exists");

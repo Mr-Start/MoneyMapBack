@@ -20,13 +20,11 @@ export class UserController {
   async handleCreate(req: Request, res: Response): Promise<Response> {
     const user: ICreateUserDTO = req.body;
 
-    try {
-      createUserSchema.parse(user);
-    } catch (error: any) {
-      if (error.errors && Array.isArray(error.errors)) {
-        throw new AppError(error.errors[0].message, 400);
-      }
-      throw new AppError("Validation error", 400);
+    const parseResult = createUserSchema.safeParse(user);
+    if (!parseResult.success) {
+      return res.status(400).json({
+        message: parseResult.error.issues.map((e) => e.message).join(", "),
+      });
     }
 
     const createUserService = new CreateUserService(
@@ -42,13 +40,11 @@ export class UserController {
     const user: IUpdateUserDTO = req.body;
     const { id } = req.params;
 
-    try {
-      updateUserSchema.parse(user);
-    } catch (error: any) {
-      if (error.errors && Array.isArray(error.errors)) {
-        throw new AppError(error.errors[0].message, 400);
-      }
-      throw new AppError("Validation error", 400);
+    const parseResult = updateUserSchema.safeParse(user);
+    if (!parseResult.success) {
+      return res.status(400).json({
+        message: parseResult.error.issues.map((e) => e.message).join(", "),
+      });
     }
 
     const updateUserService = new UpdateUserService(this.userRepository);
@@ -75,7 +71,7 @@ export class UserController {
 
   async handleFindById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    
+
     const findByIdUserService = new FindByIdUserService(this.userRepository);
     const result = await findByIdUserService.execute(id);
 
