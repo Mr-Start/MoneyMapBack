@@ -11,24 +11,24 @@ export class CreateCategoryService {
 
   async execute(data: ICreateCategoryDTO): Promise<ICategoryResponseDTO> {
     const category = Category.create(data);
-    console.log("Creating category with data:", data);
+    if (!category) throw new AppError("Category not created");
     try {
-      await this.categoryRepository.create(category);
+      const response = await this.categoryRepository.create(category.toDTO());
+      const categoryResponse: ICategoryResponseDTO = {
+        id: response.id,
+        categoryDate: response.categoryDate,
+        fixedPercent: response.fixedPercent,
+        confortPercent: response.confortPercent,
+        goalsPercent: response.goalsPercent,
+        joyPercent: response.joyPercent,
+        investmentPercent: response.investmentPercent,
+        studyPercent: response.studyPercent,
+        createdAt: response.createdAt,
+        updatedAt: response.updatedAt,
+      };
+      return categoryResponse;
     } catch (error) {
       throw new AppError(`Error creating category ${error}`);
     }
-    const categoryResponse: ICategoryResponseDTO = {
-      id: category.id,
-      categoryDate: category.categoryDate,
-      fixedPercent: category.fixedPercent,
-      confortPercent: category.confortPercent,
-      goalsPercent: category.goalsPercent,
-      joyPercent: category.joyPercent,
-      investmentPercent: category.investmentPercent,
-      studyPercent: category.studyPercent,
-      createdAt: category.createdAt,
-      updatedAt: category.updatedAt,
-    };
-    return categoryResponse;
   }
 }

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { ICreateUserDTO, IUserDTO } from "../../domain/DTOS/userDTO";
+import { ICreateUserDTO, IUpdateUserDTO, IUserDTO } from "../../domain/DTOS/userDTO";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 
 const prisma = new PrismaClient();
@@ -70,7 +70,7 @@ export class UserRepository implements IUserRepository {
     return toDto;
   }
 
-  async update(id: string, data: ICreateUserDTO): Promise<IUserDTO> {
+  async update(id: string, data: IUpdateUserDTO): Promise<IUserDTO> {
     const res = await prisma.user.update({
       where: {
         id,

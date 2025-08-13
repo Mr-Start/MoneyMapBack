@@ -26,7 +26,7 @@ categoryRoute.get(
 categoryRoute.get(
   "/",
   resolveController(async (req: Request, res: Response) => {
-    return await categoryController.handleFindByCreateAt(req, res);
+    return await categoryController.handleFindByDate(req, res);
   })
 );
 

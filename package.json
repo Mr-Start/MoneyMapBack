@@ -9,7 +9,7 @@
     "build": "npx tsc",
     "start": "npm install && npx prisma migrate deploy && npm run start:prod",
     "start:prod": "node ./dist/shared/infra/http/server.js",
-    "start:dev": "ts-node-dev ./src/shared/infra/http/server.ts",
+    "dev": "ts-node-dev ./src/shared/infra/http/server.ts",
     "docker:start": "docker compose up -d && npx prisma migrate dev",
     "db:migrate": "prisma migrate dev",
     "db:reset": "prisma migrate reset"

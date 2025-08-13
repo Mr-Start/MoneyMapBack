@@ -7,7 +7,7 @@ import {
 export interface ICategoryRepository {
   create(data: ICreateCategoryDTO): Promise<ICategoryResponseDTO>;
   findCategoryById(id: string): Promise<ICategoryResponseDTO | null>;
-  findCategoryByCreateAt(
+  findCategoryByDate(
     userId: string,
     date: Date
   ): Promise<ICategoryResponseDTO | null>;

@@ -66,7 +66,7 @@ export class UserController {
     const deleteUserService = new DeleteUserService(this.userRepository);
     const result = await deleteUserService.execute(id);
 
-    return res.status(200).json(result);
+    return res.status(20).json(result);
   }
 
   async handleFindById(req: Request, res: Response): Promise<Response> {

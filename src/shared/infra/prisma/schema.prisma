@@ -54,11 +54,11 @@ model Outcome {
 }
 
 model Income {
-  id     String   @id @default(cuid())
-  userId String
-  amount Decimal  @db.Decimal(10, 2)
-  name   String
-  date   DateTime @default(now())
+  id         String   @id @default(cuid())
+  userId     String
+  amount     Decimal  @db.Decimal(10, 2)
+  name       String
+  incomeDate DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())

@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
+import { endOfMonth, startOfMonth } from "date-fns";
 import {
   ICategoryDTO,
   ICategoryResponseDTO,
@@ -23,14 +23,14 @@ export class CategoryRepository implements ICategoryRepository {
     return category;
   }
 
-  async findCategoryByCreateAt(
+  async findCategoryByDate(
     userId: string,
     date: Date
   ): Promise<ICategoryResponseDTO | null> {
     const category = await prisma.category.findFirst({
       where: {
         userId,
-        createdAt: {
+        categoryDate: {
           gte: startOfMonth(date),
           lt: endOfMonth(date),
         },

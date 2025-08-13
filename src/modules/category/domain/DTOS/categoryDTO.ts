@@ -26,6 +26,7 @@ export interface IUpdateCategoryDTO {
   joyPercent?: number;
   investmentPercent?: number;
   studyPercent?: number;
+  updatedAt?: Date;
 }
 export interface ICategoryResponseDTO {
   id: string;

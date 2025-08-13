@@ -1,13 +1,20 @@
 import { Request, Response } from "express";
 
 import { ICategoryRepository } from "../../domain/repositories/ICategoryRepository";
-import { createCategorySchema } from "../schemas/categorySchemas";
+import {
+  createCategorySchema,
+  updateCategorySchema,
+} from "../schemas/categorySchemas";
 import { CreateCategoryService } from "../../application/createCategoryService";
-import { FindCategoryByCreateAtService } from "../../application/findCategoryByCreateAtService";
+import { FindCategoryByDateService } from "../../application/findCategoryByDateService";
 import { FindCategoryByIdService } from "../../application/findCategoryByIdService";
 import { DeleteCategoryService } from "../../application/deleteCategoryService";
 import { UpdateCategoryService } from "../../application/updateCategoryService";
-import { ICreateCategoryDTO } from "../../domain/DTOS/categoryDTO";
+import {
+  ICreateCategoryDTO,
+  IUpdateCategoryDTO,
+} from "../../domain/DTOS/categoryDTO";
+import { updateIncomeSchema } from "../../../income/infra/schemas/incomeSchemas";
 
 export class CategoryController {
   constructor(private categoryRepository: ICategoryRepository) {}
@@ -45,22 +52,22 @@ export class CategoryController {
     return res.status(200).json(result);
   }
 
-  async handleFindByCreateAt(req: Request, res: Response): Promise<Response> {
-    let { userId, createdAt } = req.body;
+  async handleFindByDate(req: Request, res: Response): Promise<Response> {
+    let { userId, date } = req.body;
     if (!userId) {
       return res.status(400).json({
         message: "userId is required",
       });
     }
-    if (!createdAt) {
-      createdAt = new Date(); // Default to current date if not provided
+    if (!date) {
+      date = new Date(); // Default to current date if not provided
     }
-    const findCategoryByCreateAtService = new FindCategoryByCreateAtService(
+    const findCategoryByDateService = new FindCategoryByDateService(
       this.categoryRepository
     );
-    const result = await findCategoryByCreateAtService.execute(
+    const result = await findCategoryByDateService.execute(
       userId,
-      new Date(createdAt)
+      new Date(date)
     );
     return res.status(200).json(result);
   }
@@ -76,12 +83,20 @@ export class CategoryController {
 
   async handleUpdate(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const categoryData = req.body;
+    const category: IUpdateCategoryDTO = req.body;
+
+    const parseResult = updateCategorySchema.safeParse(category);
+
+    if (!parseResult.success) {
+      return res.status(400).json({
+        message: parseResult.error.issues.map((e) => e.message).join(", "),
+      });
+    }
 
     const updateCategoryService = new UpdateCategoryService(
       this.categoryRepository
     );
-    const result = await updateCategoryService.execute(categoryData, id);
+    const result = await updateCategoryService.execute(category, id);
     return res.status(200).json(result);
   }
 }

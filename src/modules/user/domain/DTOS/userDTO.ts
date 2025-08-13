@@ -27,4 +27,5 @@ export interface IDeleteUserOutputDTO {
 
 export interface IUpdateUserDTO {
   email: string;
+  updatedAt: Date;
 }
